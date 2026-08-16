@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="mb-4">
+    <h2 class="fw-bold">Welcome back, {{ user.username }}!</h2>
+    <p class="text-muted">Here's your academic overview</p>
+</div>
+
+{% if profile %}
+<div class="row g-4">
+    <!-- LEFT SIDE: Summary Cards -->
+    <div class="col-lg-3">
+        <div class="d-flex flex-column gap-3">
+
+            <!-- Enrolled Courses -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3" 
+                             style="width: 48px; height: 48px;">
+                            <i class="bi bi-book-fill fs-5"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1 small">Enrolled Courses</h6>
+                            <h3 class="fw-bold mb-0 text-primary">{{ enrolled_count }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Total Credits -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-success bg-opacity-10 text-success rounded-circle d-flex align-items-center justify-content-center me-3" 
+                             style="width: 48px; height: 48px;">
+                            <i class="bi bi-mortarboard-fill fs-5"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1 small">Total Credits</h6>
+                            <h3 class="fw-bold mb-0 text-success">{{ total_credits }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Current GPA -->
+            <div class="card border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="bg-info bg-opacity-10 text-info rounded-circle d-flex align-items-center justify-content-center me-3" 
+                             style="width: 48px; height: 48px;">
+                            <i class="bi bi-graph-up fs-5"></i>
+                        </div>
+                        <div>
+                            <h6 class="text-muted mb-1 small">Current GPA</h6>
+                            <h3 class="fw-bold mb-0 text-info">{{ gpa }}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- RIGHT SIDE -->
+    <div class="col-lg-9">
+
+        <!-- Student Information -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-person-circle text-primary fs-4 me-2"></i>
+                    <h5 class="mb-0 fw-bold">Student Information</h5>
+                </div>
+                <div class="row">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <small class="text-muted d-block">Student ID</small>
+                        <span class="fw-semibold">{{ profile.student_id }}</span>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <small class="text-muted d-block">Department</small>
+                        <span class="fw-semibold">{{ profile.department }}</span>
+                    </div>
+                    <div class="col-md-4">
+                        <small class="text-muted d-block">Year Level</small>
+                        <span class="fw-semibold">Year {{ profile.year }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- My Courses & Grades -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-journal-text text-primary fs-4 me-2"></i>
+                    <h5 class="mb-0 fw-bold">My Courses & Grades</h5>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Course Code</th>
+                                <th>Course Name</th>
+                                <th>Credits</th>
+                                <th class="text-end">Grade</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for e in enrollments %}
+                            <tr>
+                                <td class="fw-medium">{{ e.course.code }}</td>
+                                <td>{{ e.course.name }}</td>
+                                <td>{{ e.course.credits }}</td>
+                                <td class="text-end">
+                                    {% if e.grade %}
+                                        <span class="badge bg-primary-subtle text-primary rounded-pill px-3">
+                                            {{ e.grade }}
+                                        </span>
+                                    {% else %}
+                                        <span class="text-muted">Not graded</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center py-5 text-muted">
+                                    <i class="bi bi-journal-x display-6 d-block mb-2"></i>
+                                    You haven't enrolled in any courses yet.
+                                    <br>
+                                    <a href="{% url 'course_list' %}" class="btn btn-primary btn-sm mt-3">
+                                        Browse Courses
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% else %}
+    <div class="alert alert-warning">No student profile found.</div>
+{% endif %}
+{% endblock %}

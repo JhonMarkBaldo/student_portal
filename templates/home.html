@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="hero-section text-center">
+    <div class="container">
+        <h1 class="display-4 fw-bold mb-3">Welcome to the Student Portal</h1>
+        <p class="lead mb-4">Manage your courses, grades, and academic journey in one place.</p>
+
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="btn btn-primary btn-lg px-5">
+                <i class="bi bi-speedometer2 me-2"></i>Go to Dashboard
+            </a>
+        {% else %}
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg me-3 px-4">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Login
+            </a>
+            <a href="{% url 'register' %}" class="btn btn-outline-primary btn-lg px-4">
+                <i class="bi bi-person-plus me-2"></i>Register
+            </a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row g-4 mt-2">
+    <div class="col-md-4">
+        <div class="card h-100 text-center p-4">
+            <i class="bi bi-book display-4 text-primary mb-3"></i>
+            <h5>View Courses</h5>
+            <p class="text-muted">Browse available courses and track your enrollments.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 text-center p-4">
+            <i class="bi bi-graph-up display-4 text-primary mb-3"></i>
+            <h5>Check Grades</h5>
+            <p class="text-muted">See your academic performance in one clean dashboard.</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100 text-center p-4">
+            <i class="bi bi-person-badge display-4 text-primary mb-3"></i>
+            <h5>Student Profile</h5>
+            <p class="text-muted">Keep your personal and academic information up to date.</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

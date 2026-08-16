@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body p-4">
+                <div class="text-center mb-4">
+                    <i class="bi bi-person-circle display-4 text-primary"></i>
+                    <h3 class="mt-2 fw-bold">My Profile</h3>
+                    <p class="text-muted">{{ profile.student_id }}</p>
+                </div>
+
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-medium">Username</label>
+                        <input type="text" class="form-control" value="{{ user.username }}" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-medium">Student ID</label>
+                        <input type="text" class="form-control" value="{{ profile.student_id }}" disabled>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-medium">Department</label>
+                        <input type="text" name="department" class="form-control" 
+                               value="{{ profile.department }}" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-medium">Year Level</label>
+                        <select name="year" class="form-select" required>
+                            <option value="1" {% if profile.year == 1 %}selected{% endif %}>1st Year</option>
+                            <option value="2" {% if profile.year == 2 %}selected{% endif %}>2nd Year</option>
+                            <option value="3" {% if profile.year == 3 %}selected{% endif %}>3rd Year</option>
+                            <option value="4" {% if profile.year == 4 %}selected{% endif %}>4th Year</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-medium">Phone Number</label>
+                        <input type="text" name="phone" class="form-control" 
+                               value="{{ profile.phone }}">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2">
+                        Save Changes
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
